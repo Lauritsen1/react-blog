@@ -9,8 +9,10 @@ const Home = () => {
             <Post />
             <Post />
             <Post />
+
         </section>
     );
 }
+
 
 export default Home;
