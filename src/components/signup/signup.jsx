@@ -57,6 +57,7 @@ const Signup = () => {
                 {errorMessage !== '' &&
                     <div className="signup-form__error-message">{errorMessage}</div>
                 }
+                
                 <h1>Sign up</h1>
                 <fieldset>
                     <label htmlFor="email">Email</label>

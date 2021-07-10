@@ -1,11 +1,62 @@
+import { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+
 import './login.scss';
 
-const login = () => {
-    
+import firebase from "../../firebase";
+
+const Login = () => {
+
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleSubmit = (e) => {
+
+        e.preventDefault()
+
+        let email = e.target.email.value;
+        let password = e.target.password.value;
+
+        if (email === '') {
+            return false
+        }
+
+        if (password === '') {
+            return false
+        }
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+
+                var user = userCredential.user;
+                console.log(user);
+
+                setLoggedIn(true);
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+
+                setErrorMessage(errorMessage);
+
+                console.log(errorCode);
+                console.log(errorMessage);
+            });
+    }
+
+    if (loggedIn) {
+        return <Redirect to='/' />
+    }
+
     return (
         <div className="login-container">
 
-            <form className="login-form">
+            <form onSubmit={handleSubmit} className="login-form">
+
+                {errorMessage !== '' &&
+                    <div className="login-form__error-message">{errorMessage}</div>
+                }
+
                 <h1>Login</h1>
                 <fieldset>
                     <label htmlFor="email">Email</label>
@@ -24,4 +75,4 @@ const login = () => {
     );
 }
 
-export default login;
+export default Login;
