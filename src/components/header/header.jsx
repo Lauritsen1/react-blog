@@ -3,17 +3,50 @@ import { Link } from 'react-router-dom';
 
 import './header.scss';
 
+import firebase from "../../firebase";
+
 const Header = () => {
 
+    console.log(localStorage.getItem('isLoggedIn'))
+
+    const isLoggedInState = localStorage.getItem('isLoggedIn');
+
+    const [isLoggedIn, setIsLoggedIn] = useState(isLoggedInState);
     const [condition, setCondition] = useState(false);
 
-    const activateNav = () => {
-        setCondition(!condition)
-        if (condition) {
-            document.body.style.overflowY = "scroll"
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            // User is signed in.
+            setIsLoggedIn(true);
         } else {
-            document.body.style.overflowY = "hidden"
+            // No user is signed in.
+            setIsLoggedIn(false);
         }
+
+        localStorage.setItem('isLoggedIn', isLoggedIn);
+    });
+
+    const activateNav = () => {
+
+        setCondition(!condition);
+
+        if (condition) {
+            document.body.style.overflowY = "scroll";
+        } else {
+            document.body.style.overflowY = "hidden";
+        }
+
+    }
+
+    const signOut = () => {
+
+        firebase.auth().signOut().then(() => {
+            // Sign-out successful.
+            setIsLoggedIn(false);
+        }).catch((error) => {
+            // An error happened.
+        });
+
     }
 
     return (
@@ -26,12 +59,17 @@ const Header = () => {
                 </span>
             </button>
 
-            <nav className={condition ? "nav visible" : "nav nav--hidden"}>
+            <nav className={condition ? "nav" : "nav nav--hidden"}>
                 <ul className="nav__list">
-                    <li className="nav__list-item"><Link to="/login">Login in</Link></li>
-                    {/* <li className="nav__list-item">Sign out</li> */}
-                    <li className="nav__list-item"><Link to="/signup">Sign up</Link></li>
-                    {/* <li className="nav__list-item">My posts</li> */}
+
+                    {isLoggedIn && <li className="nav__list-item"><Link to="/myposts">My posts</Link></li>}
+
+                    {!isLoggedIn && <li className="nav__list-item"><Link onClick={() => setCondition(false)} to="/login">Login in</Link></li>}
+
+                    {isLoggedIn && <li className="nav__list-item" onClick={signOut}>Sign out</li>}
+
+                    {!isLoggedIn && <li className="nav__list-item"><Link onClick={() => setCondition(false)} to="/signup">Sign up</Link></li>}
+
                 </ul>
             </nav>
 
