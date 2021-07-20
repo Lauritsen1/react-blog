@@ -1,18 +1,58 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 import './post.scss';
 
+import { db } from '../../firebase';
+
 const Post = () => {
+
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+
+        db.collection('posts')
+            .get()
+            .then((querySnapshot) => {
+
+                const postsArray = [];
+
+                querySnapshot.forEach((doc) => {
+
+                    postsArray.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+
+                console.log(postsArray)
+
+                setPosts(postsArray);
+            });
+
+    }, []);
+
     return (
-        <article className="post">
-            <div className="post__header">
-                <img className="post__image" src="https://web.archive.org/web/20210428220839im_/https://files.facepunch.com/garry/1cd4bcc4-0989-435c-ba42-2bd494c0f88f.png" alt="" />
-            </div>
-            <div className="post__author">Written by: Laurbærblad</div>
-            <div className="post__text">
-                <h2 className="post__title">Lorem Ipsum</h2>
-                <p className="post__date">Wednesday, March 31, 2021</p>
-                <p className="post__summary">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad id, explicabo a repellat modi natus.</p>
-            </div>
-        </article>
+        <>
+            {posts.map((post, index) => {
+
+                return (
+                    <article key={index} className='post'>
+                        <div className='post__header'>
+                            <img className='post__image' src={post.image} alt='' />
+                        </div>
+                        <div className='post__author'>Written by: <Link to=''>{post.author}</Link></div>
+                        <div className='post__text'>
+                            <h2 className='post__title'>{post.title}</h2>
+                            <p className='post__date'>{post.dateTime}</p>
+                            <p className='post__summary'>{post.content}</p>
+                        </div>
+                    </article>
+                )
+
+            })
+            }
+        </>
     );
 }
 

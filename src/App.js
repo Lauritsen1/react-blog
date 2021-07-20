@@ -6,41 +6,35 @@ import Header from './components/header/header';
 import Home from './components/home/home';
 import Signup from './components/signup/signup';
 import Login from './components/login/login';
+import AuthProvider from "./auth";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Header />
 
-        <main>
+    <div className="App">
+      <Router>
 
-          <Switch>
+        <AuthProvider>
 
-            <Route exact path="/">
+          <Header />
 
-              <Home />
+          <main>
 
-            </Route>
+            <Switch>
 
-            <Route exact path="/signup">
+              <Route exact path="/" component={Home} />
+              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/login" component={Login} />
 
-              <Signup />
+            </Switch>
 
-            </Route>
+          </main>
 
-            <Route exact path="/login">
+        </AuthProvider>
 
-              <Login />
+      </Router>
+    </div>
 
-            </Route>
-
-          </Switch>
-
-        </main>
-
-      </div>
-    </Router>
   );
 }
 

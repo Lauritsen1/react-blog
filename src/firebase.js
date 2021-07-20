@@ -1,19 +1,25 @@
-import firebase from "firebase/app";
-import "firebase/analytics";
-import "firebase/firestore";
-import "firebase/auth";
+import firebase from 'firebase/app';
+import 'firebase/analytics';
+import 'firebase/firestore';
+import 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBPnWPlOCcPJpuLAX9ljJDIFbvfoWSFxuU",
-    authDomain: "react-blog-6f401.firebaseapp.com",
-    projectId: "react-blog-6f401",
-    storageBucket: "react-blog-6f401.appspot.com",
-    messagingSenderId: "232158371452",
-    appId: "1:232158371452:web:df8b1fa8d7225ea273f3f9",
-    measurementId: "G-Y9V889F4KG"
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGEINGSENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
+    measurementId: process.env.REACT_APPP_MEASUREMENT_ID
 };
 
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
-export default firebase;
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+export {
+    db,
+    auth
+}

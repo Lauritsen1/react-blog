@@ -1,74 +1,63 @@
-import { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { useAuth } from '../../auth';
+import { useHistory } from 'react-router-dom';
 
 import './login.scss';
 
-import firebase from "../../firebase";
-
 const Login = () => {
 
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const { login } = useAuth();
+    const history = useHistory();
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
-        e.preventDefault()
+        e.preventDefault();
 
-        let email = e.target.email.value;
-        let password = e.target.password.value;
+        console.log(error)
 
-        if (email === '') {
-            return false
+        try {
+
+            setError('');
+
+            await login(emailRef.current.value, passwordRef.current.value);
+
+            history.push('/');
+
+        } catch (err) {
+
+            if (err) {
+                setError('Email or password is not valid');
+                return false;
+            }
+            
         }
 
-        if (password === '') {
-            return false
-        }
-
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-
-                var user = userCredential.user;
-                console.log(user);
-
-                setLoggedIn(true);
-            })
-            .catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-
-                setErrorMessage(errorMessage);
-
-                console.log(errorCode);
-                console.log(errorMessage);
-            });
-    }
-
-    if (loggedIn) {
-        return <Redirect to='/' />
     }
 
     return (
-        <div className="login-container">
+        <div className='login-container'>
 
-            <form onSubmit={handleSubmit} className="login-form">
+            <form onSubmit={handleSubmit} className='login-form'>
 
-                {errorMessage !== '' &&
-                    <div className="login-form__error-message">{errorMessage}</div>
+                {error !== '' &&
+                    <div className='login-form__error-message'>{error}</div>
                 }
 
                 <h1>Login</h1>
                 <fieldset>
-                    <label htmlFor="email">Email</label>
-                    <input type="email" id="email" name="email" />
+                    <label htmlFor='email'>Email</label>
+                    <input type='email' id='email' name='email' ref={emailRef} />
                 </fieldset>
 
                 <fieldset>
-                    <label htmlFor="password">password</label>
-                    <input type="password" id="password" name="password" />
+                    <label htmlFor='password'>password</label>
+                    <input type='password' id='password' name='password' ref={passwordRef} />
                 </fieldset>
 
-                <button type="submit">Login</button>
+                <button type='submit'>Login</button>
             </form>
 
         </div>
