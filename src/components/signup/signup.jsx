@@ -6,6 +6,7 @@ import './signup.scss';
 
 const Signup = () => {
 
+    const displayNameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
     const repeatPasswordRef = useRef();
@@ -26,7 +27,7 @@ const Signup = () => {
                 return false;
             }
 
-            await signup(emailRef.current.value, passwordRef.current.value);
+            await signup(emailRef.current.value, passwordRef.current.value, displayNameRef.current.value);
 
             history.push('/');
 
@@ -51,6 +52,12 @@ const Signup = () => {
                 }
 
                 <h1>Sign up</h1>
+
+                <fieldset>
+                    <label htmlFor='displayName'>Display name</label>
+                    <input type='text' id='displayName' name='displayName' ref={displayNameRef} />
+                </fieldset>
+
                 <fieldset>
                     <label htmlFor='email'>Email</label>
                     <input type='email' id='email' name='email' ref={emailRef} />

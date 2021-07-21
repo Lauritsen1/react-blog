@@ -12,10 +12,19 @@ const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState();
     const [loading, setLoading] = useState(true);
 
-    function signup(email, password) {
-        return auth.createUserWithEmailAndPassword(email, password);
+    function signup(email, password, displayName) {
+        return auth.createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+
+                var user = userCredential.user;
+
+                user.updateProfile({
+                    displayName: displayName
+                  });
+
+            });
     }
-    
+
     function login(email, password) {
         return auth.signInWithEmailAndPassword(email, password);
     }
@@ -27,12 +36,12 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
 
         const unsubscribe = auth.onAuthStateChanged(user => {
-          setCurrentUser(user);
-          setLoading(false);
+            setCurrentUser(user);
+            setLoading(false);
         })
-    
+
         return unsubscribe
-      }, [])
+    }, [])
 
     const value = {
         currentUser,
