@@ -1,5 +1,5 @@
-@import '../../styles.scss';
-@import '../../hamburger-animation.scss';
+@import "../../styles.scss";
+@import "../../hamburger-animation.scss";
 
 $header-height: 5.5rem;
 
@@ -33,22 +33,22 @@ $header-height: 5.5rem;
     left: 0;
     top: $header-height;
     width: 100vw;
-    height: calc( 100vh - #{$header-height} );
+    height: calc(100vh - #{$header-height});
     transition: transform 0.2s;
     z-index: 1;
 
     &__list-item {
-        margin-bottom: 1rem;
         font-size: 1.5rem;
         color: $heading-color;
         cursor: pointer;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
 
         a {
             color: $heading-color;
             font-size: 1.5rem;
         }
     }
-
 
     &__list-item:last-of-type {
         margin-bottom: 1rem;
@@ -60,11 +60,10 @@ $header-height: 5.5rem;
 }
 
 @media only screen and (min-width: 768px) {
-
     .hamburger {
         display: none;
     }
-    
+
     .nav {
         transform: translateX(0);
         height: unset;
@@ -78,11 +77,18 @@ $header-height: 5.5rem;
 
         &__list-item {
             margin: 0;
-            margin-right: 1rem;
             font-size: 1.1rem;
 
             a {
                 font-size: 1.1rem;
+            }
+        }
+
+        &__list-item:hover {
+            background-color: $heading-color;
+
+            a {
+                color: $theme-color;
             }
         }
 
@@ -91,4 +97,12 @@ $header-height: 5.5rem;
         }
     }
 
-  }
+    .nav__list-item--active {
+        background-color: $heading-color;
+
+        a {
+            color: $theme-color;
+        }
+    }
+
+}

@@ -34,19 +34,23 @@ const Post = () => {
 
     return (
         <>
-            {posts.map((post, index) => {
+            {posts.map(post => {
 
                 return (
-                    <article key={index} className='post'>
-                        <div className='post__header'>
-                            <img className='post__image' src={post.image} alt='' />
-                        </div>
-                        <div className='post__author'>Written by: <Link to=''>{post.author}</Link></div>
-                        <div className='post__text'>
-                            <h2 className='post__title'>{post.title}</h2>
-                            <p className='post__date'>{post.dateTime}</p>
-                            <p className='post__summary'>{post.content}</p>
-                        </div>
+                    <article key={post.id} className='post'>
+                        <Link className='post__link' to={`/post/${post.id}`}>
+                            <div className='post__inner-container'>
+                                <div className='post__header'>
+                                    <img className='post__image' src={post.image} alt='' />
+                                </div>
+                                <div className='post__author'>Written by: {post.author}</div>
+                                <div className='post__text'>
+                                    <h2 className='post__title'>{post.title}</h2>
+                                    <p className='post__date'>{post.dateTime}</p>
+                                    <p className='post__summary'>{post.content.substring(0, 100)}..</p>
+                                </div>
+                            </div>
+                        </Link>
                     </article>
                 )
 
