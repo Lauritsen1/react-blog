@@ -2,15 +2,15 @@ import { useRef, useState } from 'react';
 import { useAuth } from '../../auth';
 import { useHistory } from 'react-router-dom';
 
-import './signup.scss';
+import './register.scss';
 
-const Signup = () => {
+const Register = () => {
 
     const displayNameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
     const repeatPasswordRef = useRef();
-    const { signup } = useAuth();
+    const { register } = useAuth();
     const history = useHistory();
     const [error, setError] = useState('');
 
@@ -27,7 +27,7 @@ const Signup = () => {
                 return false;
             }
 
-            await signup(emailRef.current.value, passwordRef.current.value, displayNameRef.current.value);
+            await register(emailRef.current.value, passwordRef.current.value, displayNameRef.current.value);
 
             history.push('/');
 
@@ -43,12 +43,12 @@ const Signup = () => {
     }
 
     return (
-        <div className='signup-container'>
+        <div className='register-container'>
 
-            <form onSubmit={handleSubmit} className='signup-form'>
+            <form onSubmit={handleSubmit} className='register-form'>
 
                 {error !== '' &&
-                    <div className='signup-form__error-message'>{error}</div>
+                    <div className='register-form__error-message'>{error}</div>
                 }
 
                 <h1>Sign up</h1>
@@ -80,4 +80,4 @@ const Signup = () => {
     );
 }
 
-export default Signup;
+export default Register;
