@@ -2,11 +2,13 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import './styles.scss';
 
-import Header from './components/header/header';
-import Home from './components/home/home';
-import Signup from './components/signup/signup';
-import Login from './components/login/login';
 import AuthProvider from "./auth";
+import Header from './components/header/header';
+import Home from './pages/home/home';
+import SinglePost from "./pages/singlePost/SinglePost";
+import Register from './components/register/register';
+import Login from './components/login/login';
+
 
 function App() {
   return (
@@ -23,7 +25,8 @@ function App() {
             <Switch>
 
               <Route exact path="/" component={Home} />
-              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/post/:id" component={SinglePost} />
+              <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
 
             </Switch>

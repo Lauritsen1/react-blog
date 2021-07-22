@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState();
     const [loading, setLoading] = useState(true);
 
-    function signup(email, password, displayName) {
+    function register(email, password, displayName) {
         return auth.createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
 
@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
 
                 user.updateProfile({
                     displayName: displayName
-                  });
+                });
 
             });
     }
@@ -45,7 +45,7 @@ const AuthProvider = ({ children }) => {
 
     const value = {
         currentUser,
-        signup,
+        register,
         login,
         logout
     }
